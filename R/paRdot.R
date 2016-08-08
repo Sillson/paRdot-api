@@ -2,19 +2,6 @@ require(httr)
 require(xml2)
 require(XML)
 
-authenticate <- function() {
-  # body params must be set in list. Add .env get that will fetch these items
-  auth_body  <- list(email = Sys.getenv("PARDOT_EMAIL"), 
-                    password = Sys.getenv("PARDOT_PASSWORD"), 
-                    user_key = Sys.getenv("PARDOT_USER_KEY"))
-
-  # make initial API call to authenticate
-  fetch_api_call <- POST("https://pi.pardot.com/api/login/version/3", body= auth_body)
-
-  # returns xml node with <api_key>
-  api_key <<- xml_text(content(fetch_api_call))
-}
-
 paRdot <- function(object,operator,identifier_field=NULL,identifier=NULL) {
   # object & operator are required fields
   # identifier fields / identifier are optional
@@ -27,6 +14,20 @@ paRdot <- function(object,operator,identifier_field=NULL,identifier=NULL) {
 
   request_url <- build_url(param_list)
   api_call(request_url)
+}
+
+
+authenticate <- function() {
+  # body params must be set in list. Add .env get that will fetch these items
+  auth_body  <- list(email = .paRdotEnv$data$pardot_username, 
+                    password = .paRdotEnv$data$pardot_password, 
+                    user_key = .paRdotEnv$data$pardot_user_key)
+
+  # make initial API call to authenticate
+  fetch_api_call <- POST("https://pi.pardot.com/api/login/version/3", body= auth_body)
+
+  # returns xml node with <api_key>
+  api_key <<- xml_text(content(fetch_api_call))
 }
 
 api_call <- function(request_url) {

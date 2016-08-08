@@ -2,11 +2,13 @@
 A simple R wrapper for the Pardot API
 
 ### Getting Started:
-Set up your environment variables
+
+Add paRdot to your working directory
 ```
-Sys.setenv("PARDOT_EMAIL" = "your pardot email")
-Sys.setenv("PARDOT_PASSWORD" = "your pardot password")
-Sys.setenv("PARDOT_USER_KEY" = "your pardot_user_key")
+source("R/paRdot.R", local=TRUE)
+set_username('insert-your-username')
+set_password('insert-your-password')
+set_user_key('insert-your-user-key')
 ```
 
 Next, make a **paRdot** api call. Will return a XML response
