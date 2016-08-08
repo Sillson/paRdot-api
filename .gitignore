@@ -1,0 +1,7 @@
+*.csv
+*.txt
+api_credentials.R
+.Rhistory
+.DS_store
+.Rproj.user
+.RData
