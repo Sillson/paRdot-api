@@ -1,9 +1,8 @@
 ## Pardot Credentials ##
 
-# Copy a version of this file and enter your Pardot credentials into the vars below.
+# paRdot uses ENV variables for your credentials
+# please enter the following into your R console before beginning:
 
-# linux cmd: cp api_credentials_example.R api_credentials.R
-
-pardot_email <- "example@example.com"
-pardot_password <- "HuXLeyIsTh3B35tD0gEvEr!"
-pardot_user_key <- "123456abcdefg7890"
+Sys.setenv("PARDOT_EMAIL" = "your pardot email")
+Sys.setenv("PARDOT_PASSWORD" = "your pardot password")
+Sys.setenv("PARDOT_USER_KEY" = "your pardot_user_key")
