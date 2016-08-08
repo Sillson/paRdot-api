@@ -20,20 +20,23 @@ paRdot <- function(object,operator,identifier_field=NULL,identifier=NULL) {
   # identifier fields / identifier are optional
   # optional field to implement <- api_request_params,"&format=",api_format
   param_list <- (as.list(match.call()))
+
   if (is.null(api_key)) {
     authenticate()
   }
 
-  request_url <- build_url(params)
+  request_url <- build_url(param_list)
   api_call(request_url)
 }
 
 api_call <- function(request_url) {
   resp <- GET(request_url)
+  print(resp)
   if ( resp$status != 200 ) {
     authenticate()
     resp <- GET(request_url)
   }
+  return(resp)
 }
 
 build_url <- function(param_list) {
@@ -45,7 +48,9 @@ build_url <- function(param_list) {
   api_identifier_field = scrub_opts(param_list$identifier_field)
   api_identifier = scrub_opts(param_list$identifier)
 
-  cat("https://pi.pardot.com/api/",api_object,"/version/3/do/"api_operator,api_identifier_field,api_identifier"?api_key=",api_key,"&user_key=",Sys.getenv("PARDOT_USER_KEY"),"&")
+  request_url <- paste("https://pi.pardot.com/api/",api_object,"/version/3/do/",api_operator,api_identifier_field,api_identifier,"?api_key=",api_key,"&user_key=",Sys.getenv("PARDOT_USER_KEY"),"&", collapse=" ")
+  print(request_url)
+  return(gsub(" ", '', request_url))
 }
 
 scrub_opts <- function(opt) {
