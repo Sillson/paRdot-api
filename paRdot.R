@@ -1,6 +1,6 @@
 require(httr)
 require(xml2)
-require(jsonlite)
+require(XML)
 
 authenticate <- function() {
   # body params must be set in list. Add .env get that will fetch these items
@@ -31,12 +31,12 @@ paRdot <- function(object,operator,identifier_field=NULL,identifier=NULL) {
 
 api_call <- function(request_url) {
   resp <- GET(request_url)
-  print(resp)
   if ( resp$status != 200 ) {
     authenticate()
-    resp <- GET(request_url)
+    resp <- GET(request_url, content_type_xml())
   }
-  return(resp)
+  xml_response <- xmlNode(content(resp, "parsed"))
+  return(xml_response)
 }
 
 build_url <- function(param_list) {
@@ -49,7 +49,6 @@ build_url <- function(param_list) {
   api_identifier = scrub_opts(param_list$identifier)
 
   request_url <- paste("https://pi.pardot.com/api/",api_object,"/version/3/do/",api_operator,api_identifier_field,api_identifier,"?api_key=",api_key,"&user_key=",Sys.getenv("PARDOT_USER_KEY"),"&", collapse=" ")
-  print(request_url)
   return(gsub(" ", '', request_url))
 }
 
