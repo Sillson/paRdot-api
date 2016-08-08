@@ -26,7 +26,11 @@ pardot_client <- function(params) {
 }
 
 api_call <- function(request_body) {
-  GET(request_body)
+  resp <- GET(request_body)
+  if ( resp$status != 200 ) {
+    authenticate()
+    resp <- GET(request_body)
+  }
 }
 
 build_url <- function(params) {
