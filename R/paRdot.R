@@ -1,6 +1,8 @@
 require(httr)
 require(xml2)
 require(XML)
+source("set_credentials.R", local=TRUE)
+source("zzz.R", local=TRUE)
 
 paRdot <- function(object,operator,identifier_field=NULL,identifier=NULL) {
   # object & operator are required fields
