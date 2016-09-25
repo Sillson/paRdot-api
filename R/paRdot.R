@@ -36,10 +36,10 @@ api_call <- function(request_url) {
   resp <- GET(request_url)
   if ( resp$status != 200 ) {
     authenticate()
-    resp <- GET(request_url, content_type_xml())
+    resp <- GET(request_url, content_type_json())
   }
   xml_response <- xmlNode(content(resp, "parsed"))
-  return(xml_response)
+  return(resp)
 }
 
 build_url <- function(param_list) {
@@ -51,9 +51,10 @@ build_url <- function(param_list) {
   api_identifier_field = scrub_opts(param_list$identifier_field)
   api_identifier = scrub_opts(param_list$identifier)
 
-  request_url <- paste0("https://pi.pardot.com/api/",api_object,"/version/3/do/",api_operator,api_identifier_field,api_identifier,"?api_key=",api_key,"&user_key=",Sys.getenv("PARDOT_USER_KEY"),"&")
+  request_url <- paste0("https://pi.pardot.com/api/",api_object,"/version/3/do/",api_operator,api_identifier_field,api_identifier,"?api_key=",api_key,"&user_key=",Sys.getenv("PARDOT_USER_KEY"),"&output=bulk&format=json")
   return(request_url)
 }
+
 
 scrub_opts <- function(opt) {
   if( is.null(opt) || opt == '' ) {
